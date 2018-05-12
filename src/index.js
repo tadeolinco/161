@@ -4,32 +4,28 @@
 */
 
 import {
-  ArcRotateCamera,
   Engine,
   HemisphericLight,
   MeshBuilder,
   PointLight,
   Scene,
   Vector3,
+  UniversalCamera,
 } from 'babylonjs'
 
 const canvas = document.getElementById('canvas')
 
 const engine = new Engine(canvas, true)
+engine.isPointerLock = true
 
 const createScene = function() {
   // Create the scene space
   const scene = new Scene(engine)
 
   // Add a camera to the scene and attach it to the canvas
-  const camera = new ArcRotateCamera(
-    'Camera',
-    Math.PI / 2,
-    Math.PI / 2,
-    2,
-    Vector3.Zero(),
-    scene
-  )
+  const camera = new UniversalCamera('Camera', new Vector3(0, 0, -10), scene)
+  camera.angularSensibility = 5000
+  camera.setTarget(Vector3.Zero())
   camera.attachControl(canvas, true)
 
   // Add lights to the scene
