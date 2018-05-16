@@ -2,6 +2,7 @@ import { Engine, Scene } from 'babylonjs'
 import { createWalls } from './walls'
 import { createCamera, updateCamera } from './camera'
 import { createLight } from './light'
+import { createGun } from './gun'
 
 // https://doc.babylonjs.com/babylon101/first
 
@@ -14,6 +15,7 @@ const scene = new Scene(engine)
 createCamera(scene)
 createLight(scene)
 createWalls(scene)
+createGun(scene)
 
 engine.runRenderLoop(() => {
   updateCamera(scene)
