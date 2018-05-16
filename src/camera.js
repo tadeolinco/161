@@ -5,7 +5,7 @@ export const createCamera = scene => {
   const camera = new UniversalCamera('Camera', new Vector3(0, 1, 0), scene)
   camera.angularSensibility = 5000
   camera.setTarget(Vector3.Zero())
-  camera.attachControl(canvas, true)
+  // camera.attachControl(canvas, true)
 }
 
 export const updateCamera = scene => {

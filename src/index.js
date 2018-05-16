@@ -17,6 +17,30 @@ createLight(scene)
 createWalls(scene)
 createGun(scene)
 
+let isPlaying = false
+
+window.addEventListener('keydown', event => {
+  if (event.code === 'Escape') {
+    const camera = scene.cameras[0]
+    if (isPlaying) {
+      camera.detachControl(canvas)
+      isPlaying = false
+    }
+  }
+  // listen to other key events (eg. reloading)
+})
+
+canvas.addEventListener('click', () => {
+  if (!isPlaying) {
+    const camera = scene.cameras[0]
+    camera.attachControl(canvas, true)
+    isPlaying = true
+  } else {
+    // @TODO implement shooting
+    console.log('bang!')
+  }
+})
+
 engine.runRenderLoop(() => {
   updateCamera(scene)
   scene.render()
