@@ -23,4 +23,11 @@ export const RELOADING_TIME = {
   HARD: 4000,
 }
 
+// in seconds
+export const GAME_TIME = {
+  EASY: 5,
+  MEDIUM: 40,
+  HARD: 20,
+}
+
 export const NUM_BULLET = 10
