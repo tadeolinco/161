@@ -62,14 +62,17 @@ window.addEventListener('keydown', event => {
         then = null
       }
     } else if (event.code === 'Space' && gameState.isPlaying) {
-      const gun = scene.getMeshByID('gun')
+      const gunBody = scene.getMeshByID('gun_body')
+      const gunTip = scene.getMeshByID('gun_tip')
       reloadingText.hidden = false
       gameState.reloading = true
-      gun.setEnabled(false)
+      gunBody.setEnabled(false)
+      gunTip.setEnabled(false)
       setTimeout(() => {
         reloadingText.hidden = true
         gameState.reloading = false
-        gun.setEnabled(true)
+        gunBody.setEnabled(true)
+        gunTip.setEnabled(true)
         setBullets(NUM_BULLET)
       }, RELOADING_TIME[gameState.difficulty])
     }
