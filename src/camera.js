@@ -1,4 +1,5 @@
 import { UniversalCamera, Vector3 } from 'babylonjs'
+import { CAMERA_RESTRICTION } from './constants'
 
 // https://doc.babylonjs.com/babylon101/cameras
 export const createCamera = scene => {
@@ -15,15 +16,20 @@ export const updateCamera = scene => {
    */
   const camera = scene.cameras[0]
   const { x, y } = camera.rotation
-  if (y > Math.PI / 8) {
-    camera.rotation.y = Math.PI / 8
-  } else if (y < -Math.PI / 8) {
-    camera.rotation.y = -Math.PI / 8
+
+  const { topDown, sideToSide } = CAMERA_RESTRICTION
+
+  if (y > sideToSide) {
+    camera.rotation.y = sideToSide
+  } else if (y < -sideToSide) {
+    camera.rotation.y = -sideToSide
   }
 
-  if (x > Math.PI / 16) {
-    camera.rotation.x = Math.PI / 16
-  } else if (x < -Math.PI / 16) {
-    camera.rotation.x = -Math.PI / 16
+  const topDownRestriction = Math.PI / 8
+
+  if (x > topDown) {
+    camera.rotation.x = topDown
+  } else if (x < -topDown) {
+    camera.rotation.x = -topDown
   }
 }

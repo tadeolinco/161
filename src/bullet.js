@@ -1,30 +1,53 @@
-import { MeshBuilder } from 'babylonjs'
+import { MeshBuilder, Tools, Tags, Matrix, Vector2, Vector3 } from 'babylonjs'
 import uuid from 'uuid/v1'
+import { GUN_POSITION, BULLET_SPEED } from './constants'
 
 export const createBullet = scene => {
   // @TODO implement create bullet, keep angle of trajectory somehow
   const gun = scene.getMeshByID('gun')
-  console.log(gun.position)
   const bullet = MeshBuilder.CreateSphere(
     'bullet-' + uuid(),
     { diameter: 0.0625 },
     scene
   )
-  bullet.position.z = 1.5
-  bullet.position.y = 1
+  // add tag so we can reference them later
+  Tags.AddTagsTo(bullet, 'bullet')
+
+  const camera = scene.cameras[0]
+  // set position to be same as camera
+  bullet.position = camera.position.clone()
+  bullet.position.y -= 0.25
+
+  // set bullet trajectory
+  const invView = new Matrix()
+  camera.getViewMatrix().invertToRef(invView)
+  const direction = Vector3.TransformNormal(
+    new Vector3(0, 0, BULLET_SPEED),
+    invView
+  )
+  direction.normalize()
+  bullet.trajectory = direction
 }
 
 // https://doc.babylonjs.com/resources/tags
-export const updateBullets = scene => {
+export const updateBullets = (scene, delta) => {
   const bullets = scene.getMeshesByTags('bullet')
   const walls = scene.getMeshesByTags('wall')
+  const platforms = scene.getMeshesByTags('platform')
 
-  // @TODO get other meshes like the targets
+  for (const bullet of bullets) {
+    // @TODO adjust bullet speed depending to delta
+    bullet.position.addInPlace(bullet.trajectory)
 
-  /**
-   * @TODO
-   * 1. iterate over bullets
-   * 2. adjust their positions somehow (how to know angle? maybe put a BULLET_SPEED constant in constants.js)
-   * 3. iterate over collidable meshes (walls, targets, etc)
-   */
+    for (const wall of walls) {
+      if (bullet.intersectsMesh(wall, false)) {
+        bullet.dispose()
+      }
+    }
+    for (const platform of platforms) {
+      if (bullet.intersectsMesh(platform, false)) {
+        bullet.dispose()
+      }
+    }
+  }
 }

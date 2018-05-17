@@ -4,6 +4,7 @@ import { createCamera, updateCamera } from './camera'
 import { createLight } from './light'
 import { createGun } from './gun'
 import { addListeners } from './listeners'
+import { updateBullets } from './bullet'
 
 // https://doc.babylonjs.com/babylon101/first
 const canvas = document.getElementById('canvas')
@@ -18,9 +19,13 @@ createWalls(scene)
 createGun(scene)
 addListeners(scene)
 
+let then = Date.now()
 scene.registerAfterRender(() => {
+  const now = Date.now()
+  const delta = (now - then) / 1000
   updateCamera(scene)
-  const rotation = scene.cameras[0].rotation
+  updateBullets(scene, delta)
+  then = now
 })
 
 engine.runRenderLoop(() => {
