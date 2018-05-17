@@ -16,7 +16,7 @@ export const createBullet = scene => {
   const camera = scene.cameras[0]
   // set position to be same as camera
   bullet.position = camera.position.clone()
-  bullet.position.y -= 0.3
+  bullet.position.y -= 0.5
 
   // set bullet trajectory
   const invView = new Matrix()
