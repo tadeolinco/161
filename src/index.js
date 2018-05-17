@@ -2,7 +2,7 @@ import { Engine, Scene } from 'babylonjs'
 import { createWalls } from './walls'
 import { createPlatforms } from './platforms'
 import { createCamera, updateCamera } from './camera'
-import { createLights } from './lights'
+import { createLights, updateLights } from './lights'
 import { createStrings } from './strings'
 import { createGun } from './gun'
 import { updateBullets, createBullet } from './bullet'
@@ -28,6 +28,8 @@ const gameState = {
   gameOver: true,
 }
 
+let then = null
+
 const engine = new Engine(canvas, true)
 engine.isPointerLock = true
 
@@ -52,6 +54,7 @@ window.addEventListener('keydown', event => {
       if (gameState.isPlaying) {
         camera.detachControl(canvas)
         gameState.isPlaying = false
+        then = null
       }
     } else if (event.code === 'Space' && gameState.isPlaying) {
       reloadingText.hidden = false
@@ -82,7 +85,6 @@ canvas.addEventListener('click', () => {
 })
 
 // updates that rely on delta time
-let then = null
 scene.registerAfterRender(() => {
   if (gameState.isPlaying && !gameState.gameOver) {
     if (!then) then = Date.now()
@@ -136,5 +138,6 @@ for (const button of difficultyButtons) {
 
     const camera = scene.cameras[0]
     camera.attachControl(canvas, true)
+    updateLights(scene, gameState.difficulty)
   })
 }

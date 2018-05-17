@@ -1,7 +1,8 @@
 import { SpotLight, Vector3, PointLight } from 'babylonjs'
-import { BASE_UNIT } from './constants'
+import { BASE_UNIT, DIFFICULTY } from './constants'
 
 // https://doc.babylonjs.com/babylon101/lights
+
 export const createLights = scene => {
   const position1 = new Vector3(0, BASE_UNIT, BASE_UNIT + 1)
   const direction = new Vector3(0, -1, 0)
@@ -42,4 +43,27 @@ export const createLights = scene => {
     scene
   )
   pointLight.intensity = 0.05
+}
+
+export const updateLights = (scene, difficulty) => {
+  const spotLight1 = scene.getLightByID('spotLight1')
+  const spotLight2 = scene.getLightByID('spotLight2')
+  const spotLight3 = scene.getLightByID('spotLight3')
+  const pointLight = scene.getLightByID('pointLight')
+  if (difficulty === DIFFICULTY.EASY) {
+    spotLight1.setEnabled(true)
+    spotLight2.setEnabled(true)
+    spotLight3.setEnabled(true)
+    pointLight.intensity = 0.05
+  } else if (difficulty === DIFFICULTY.MEDIUM) {
+    spotLight1.setEnabled(true)
+    spotLight2.setEnabled(false)
+    spotLight3.setEnabled(true)
+    pointLight.intensity = 0.04
+  } else if (difficulty === DIFFICULTY.HARD) {
+    spotLight1.setEnabled(true)
+    spotLight2.setEnabled(false)
+    spotLight3.setEnabled(false)
+    pointLight.intensity = 0.03
+  }
 }
