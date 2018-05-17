@@ -10,6 +10,7 @@ import { DIFFICULTY, RELOADING_TIME, NUM_BULLET } from './constants'
 const canvas = document.getElementById('canvas')
 const bulletsText = document.getElementById('bullets')
 const reloadingText = document.getElementById('reloading')
+const pointsText = document.getElementById('points')
 
 const engine = new Engine(canvas, true)
 engine.isPointerLock = true
@@ -71,6 +72,7 @@ scene.registerAfterRender(() => {
   updateCamera(scene)
   const points = updateBullets(scene, delta)
   gameState.points += points
+  pointsText.textContent = gameState.points
   then = now
 })
 
