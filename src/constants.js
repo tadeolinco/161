@@ -10,3 +10,17 @@ export const CAMERA_RESTRICTION = {
   topDown: Math.PI / 8,
   sideToSide: Math.PI / 3.5,
 }
+
+export const DIFFICULTY = {
+  EASY: 'EASY',
+  MEDIUM: 'MEDIUM',
+  HARD: 'HARD',
+}
+
+export const RELOADING_TIME = {
+  EASY: 2000,
+  MEDIUM: 3000,
+  HARD: 4000,
+}
+
+export const NUM_BULLET = 10

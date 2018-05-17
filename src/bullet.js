@@ -35,6 +35,7 @@ export const updateBullets = (scene, delta) => {
   const walls = scene.getMeshesByTags('wall')
   const platforms = scene.getMeshesByTags('platform')
 
+  let points = 0
   for (const bullet of bullets) {
     // @TODO adjust bullet speed depending to delta
     bullet.position.addInPlace(bullet.trajectory)
@@ -49,5 +50,15 @@ export const updateBullets = (scene, delta) => {
         bullet.dispose()
       }
     }
+
+    /* for (const target of targets) {
+      if (bullet.intersectsMesh(target, false)) {
+        points += target.points;
+        bullet.dispose()
+        target.dispose()
+      }
+    } */
   }
+
+  return points
 }
