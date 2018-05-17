@@ -19,6 +19,7 @@
       width: 75vw;
       height: 100vh;
       touch-action: none;
+      cursor: none;
     }
 
     #menu {
@@ -29,15 +30,48 @@
       top: 0;
       padding: 10px;
     }
+
+    #help {
+      border: 1px solid gray;
+      padding: 10px;
+    }
+
+    #game-difficulty {
+      border: 1px solid gray;
+      margin-top: 10px;
+      padding: 10px;
+    }
+
+    #game-status {
+      border: 1px solid gray;
+      margin-top: 10px;
+      padding: 10px;
+    }
   </style>
 </head>
 <body>
   <canvas id="canvas"></canvas>
   <div id="menu">
-    <p>menu panel</p>
-    <p>click on canvas to start</p>
-    <p>escape to pause</p>
-    <p>space to reload</p>
+    <div id="help">
+      <h3>How to play</h3>
+      <hr>
+      <p>ESC to pause</p>
+      <p>Space to reload</p>
+      <p>Left click to shoot</p>
+    </div>
+    <div id="game-difficulty">
+      <h3>Game Difficulty</h3>
+      <hr>
+      <button class="difficulty-button" data-value="easy">Easy</button>
+      <button class="difficulty-button" data-value="medium">Medium</button>
+      <button class="difficulty-button" data-value="hard">Hard</button>
+    </div>
+    <div id="game-status" hidden>
+      <p id="time"></p>
+      <p id="points"></p>
+      <p id="bullets"></p>
+      <p hidden id="reloading">reloading</p>
+    </div>
   </div>
 </body>
 </html>
