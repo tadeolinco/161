@@ -2,7 +2,8 @@ import { Engine, Scene } from 'babylonjs'
 import { createWalls } from './walls'
 import { createPlatforms } from './platforms'
 import { createCamera, updateCamera } from './camera'
-import { createLight } from './light'
+import { createLights } from './lights'
+import { createStrings } from './strings'
 import { createGun } from './gun'
 import { updateBullets, createBullet } from './bullet'
 import { DIFFICULTY, RELOADING_TIME, NUM_BULLET, GAME_TIME } from './constants'
@@ -32,8 +33,9 @@ engine.isPointerLock = true
 
 const scene = new Scene(engine)
 createCamera(scene)
+createStrings(scene)
 createPlatforms(scene)
-createLight(scene)
+createLights(scene)
 createWalls(scene)
 createGun(scene)
 
