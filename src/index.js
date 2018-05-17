@@ -1,4 +1,4 @@
-import { Engine, Scene } from 'babylonjs'
+import { Engine, Scene, SceneOptimizer, SceneOptimizerOptions } from 'babylonjs'
 import { createWalls } from './walls'
 import { createPlatforms } from './platforms'
 import { createCamera, updateCamera } from './camera'
@@ -40,6 +40,11 @@ createPlatforms(scene)
 createLights(scene)
 createWalls(scene)
 createGun(scene)
+
+SceneOptimizer.OptimizeAsync(
+  scene,
+  SceneOptimizerOptions.ModerateDegradationAllowed()
+)
 
 const setBullets = value => {
   gameState.bullets = value
