@@ -25,7 +25,7 @@ export const RELOADING_TIME = {
 
 // in seconds
 export const GAME_TIME = {
-  EASY: 5,
+  EASY: 60,
   MEDIUM: 40,
   HARD: 20,
 }
