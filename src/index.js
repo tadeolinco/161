@@ -123,6 +123,7 @@ for (const button of difficultyButtons) {
     gameState.difficulty = DIFFICULTY[difficulty]
     gameState.gameOver = false
     gameState.isPlaying = true
+    then = null
     gameState.time = GAME_TIME[difficulty]
     gameDifficultyMenu.hidden = true
     gameStatusPanel.hidden = false
