@@ -1,4 +1,4 @@
-import { Engine, Scene, SceneOptimizer, SceneOptimizerOptions } from 'babylonjs'
+import { Engine, Scene } from 'babylonjs'
 import { createWalls } from './walls'
 import { createPlatforms } from './platforms'
 import { createCamera, updateCamera } from './camera'
@@ -7,6 +7,8 @@ import { createStrings } from './strings'
 import { createGun } from './gun'
 import { updateBullets, createBullet } from './bullet'
 import { DIFFICULTY, RELOADING_TIME, NUM_BULLET, GAME_TIME } from './constants'
+import { createShapes } from './shapes'
+import { createBullseyes } from './bullseye'
 
 // https://doc.babylonjs.com/babylon101/first
 const canvas = document.getElementById('canvas')
@@ -34,17 +36,15 @@ const engine = new Engine(canvas, true)
 engine.isPointerLock = true
 
 const scene = new Scene(engine)
+scene.collisionsEnabled = true
+scene.workerCollisions = true
+
 createCamera(scene)
 createStrings(scene)
 createPlatforms(scene)
 createLights(scene)
 createWalls(scene)
 createGun(scene)
-
-SceneOptimizer.OptimizeAsync(
-  scene,
-  SceneOptimizerOptions.ModerateDegradationAllowed()
-)
 
 const setBullets = value => {
   gameState.bullets = value
@@ -144,6 +144,10 @@ for (const button of difficultyButtons) {
 
     gameState.reloading = false
 
+    const targets = scene.getMeshesByTags('target')
+    targets.forEach(target => target.dispose())
+    createBullseyes(scene)
+    createShapes(scene)
     const camera = scene.cameras[0]
     camera.attachControl(canvas, true)
     updateLights(scene, gameState.difficulty)

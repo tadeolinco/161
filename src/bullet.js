@@ -1,15 +1,16 @@
 import { MeshBuilder, Tools, Tags, Matrix, Vector2, Vector3 } from 'babylonjs'
-import uuid from 'uuid/v1'
-import { GUN_POSITION, BULLET_SPEED } from './constants'
+import { BULLET_SPEED } from './constants'
 
+let bulletCount = 0
 export const createBullet = scene => {
   // @TODO implement create bullet, keep angle of trajectory somehow
-  const gun = scene.getMeshByID('gun')
   const bullet = MeshBuilder.CreateSphere(
-    'bullet-' + uuid(),
+    'bullet-' + bulletCount++,
     { diameter: 0.0625 },
     scene
   )
+  bullet.checkCollisions = true
+
   // add tag so we can reference them later
   Tags.AddTagsTo(bullet, 'bullet')
 
@@ -32,32 +33,34 @@ export const createBullet = scene => {
 // https://doc.babylonjs.com/resources/tags
 export const updateBullets = (scene, delta) => {
   const bullets = scene.getMeshesByTags('bullet')
-  const walls = scene.getMeshesByTags('wall')
-  const platforms = scene.getMeshesByTags('platform')
+  let targets = scene.getMeshesByTags('target')
 
+  console.log(targets)
   let points = 0
   for (const bullet of bullets) {
     // @TODO adjust bullet speed depending to delta
     bullet.position.addInPlace(bullet.trajectory)
 
-    for (const wall of walls) {
-      if (bullet.intersectsMesh(wall, false)) {
-        bullet.dispose()
+    if (!bullet.toBeDisposed)
+      for (const target of targets) {
+        if (bullet.intersectsMesh(target, false)) {
+          points += target.points
+          bullet.toBeDisposed = true
+          target.toBeDisposed = true
+        }
       }
-    }
-    for (const platform of platforms) {
-      if (bullet.intersectsMesh(platform, false)) {
-        bullet.dispose()
-      }
-    }
 
-    /* for (const target of targets) {
-      if (bullet.intersectsMesh(target, false)) {
-        points += target.points;
-        bullet.dispose()
+    targets = targets.filter(target => {
+      if (target.toBeDisposed) {
         target.dispose()
+        return false
       }
-    } */
+      return true
+    })
+
+    if (bullet.toBeDisposed) {
+      bullet.dispose()
+    }
   }
 
   return points
