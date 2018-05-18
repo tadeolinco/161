@@ -1,4 +1,13 @@
-import { MeshBuilder, Tools, Tags, Matrix, Vector2, Vector3 } from 'babylonjs'
+import {
+  MeshBuilder,
+  Tools,
+  Tags,
+  Matrix,
+  StandardMaterial,
+  Texture,
+  Vector2,
+  Vector3,
+} from 'babylonjs'
 import { BULLET_SPEED } from './constants'
 
 let bulletCount = 0
@@ -13,6 +22,15 @@ export const createBullet = scene => {
 
   // add tag so we can reference them later
   Tags.AddTagsTo(bullet, 'bullet')
+
+  const b_img = require('./assets/bullet.jpg')
+
+  const bullet_texture = new StandardMaterial('bullet', scene)
+  bullet_texture.diffuseTexture = new Texture(b_img, scene)
+  bullet_texture.ambientTexture = new Texture(b_img, scene)
+  bullet_texture.emissiveTexture = new Texture(b_img, scene)
+
+  bullet.material = bullet_texture
 
   const camera = scene.cameras[0]
   // set position to be same as camera

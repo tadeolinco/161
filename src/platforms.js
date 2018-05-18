@@ -1,4 +1,10 @@
-import { MeshBuilder, Vector3, Tags } from 'babylonjs'
+import {
+  MeshBuilder,
+  Vector3,
+  Tags,
+  StandardMaterial,
+  Texture,
+} from 'babylonjs'
 import { BASE_UNIT } from './constants'
 
 export const createPlatforms = scene => {
@@ -25,4 +31,15 @@ export const createPlatforms = scene => {
   )
   centerPlatform.position = new Vector3(0, 0, BASE_UNIT * 2 - 0.25)
   Tags.AddTagsTo(centerPlatform, 'platform')
+
+  const p_img = require('./assets/platform.jpg')
+
+  const platform_texture = new StandardMaterial('platform', scene)
+  platform_texture.diffuseTexture = new Texture(p_img, scene)
+  platform_texture.ambientTexture = new Texture(p_img, scene)
+  platform_texture.emissiveTexture = new Texture(p_img, scene)
+
+  leftPlatform.material = platform_texture
+  rightPlatform.material = platform_texture
+  centerPlatform.material = platform_texture
 }

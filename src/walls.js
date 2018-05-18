@@ -1,4 +1,12 @@
-import { Axis, MeshBuilder, Space, Vector3, Tags } from 'babylonjs'
+import {
+  Axis,
+  MeshBuilder,
+  Space,
+  Vector3,
+  Tags,
+  StandardMaterial,
+  Texture,
+} from 'babylonjs'
 import { BASE_UNIT } from './constants'
 
 // https://doc.babylonjs.com/babylon101/discover_basic_elements#plane
@@ -53,4 +61,20 @@ export const createWalls = scene => {
   leftWall.rotation.y = -Math.PI / 2
   leftWall.checkCollisions = true
   Tags.AddTagsTo(leftWall, 'wall')
+
+  const f_img = require('./assets/floor.jpg')
+  const w_img = require('./assets/walls.jpg')
+
+  const floor_texture = new StandardMaterial('floor', scene)
+  floor_texture.diffuseTexture = new Texture(f_img, scene)
+
+  const wall_texture = new StandardMaterial('wall', scene)
+  wall_texture.diffuseTexture = new Texture(w_img, scene)
+  wall_texture.ambientTexture = new Texture(w_img, scene)
+  wall_texture.emissiveTexture = new Texture(w_img, scene)
+
+  floor.material = floor_texture
+  rightWall.material = wall_texture
+  leftWall.material = wall_texture
+  backWall.material = wall_texture
 }
