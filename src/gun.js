@@ -1,4 +1,11 @@
-import { MeshBuilder, Axis, Tools, Vector3 } from 'babylonjs'
+import {
+  MeshBuilder,
+  Axis,
+  Tools,
+  Vector3,
+  StandardMaterial,
+  Texture,
+} from 'babylonjs'
 import { BASE_UNIT, GUN_POSITION } from './constants'
 
 export const createGun = scene => {
@@ -20,4 +27,10 @@ export const createGun = scene => {
   gunTip.rotation.x = Math.PI / 2
   gunTip.rotation.y = Math.PI / 2
   gunTip.parent = camera
+
+  const gun_img = require('./assets/topview.png')
+  const topview = new Texture(gun_img, scene)
+  const gun_texture = new StandardMaterial('gunBody', scene)
+  gun_texture.diffuseTexture = topview
+  gunBody.material = gun_texture
 }
